@@ -69,7 +69,8 @@ public class UsuarioController {
     {
         try {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
-            if (usuario.getUsuarioid() == 0 || usuario == null)
+
+            if (usuario.getUsuarioid() == 0 || usuario == null || usuario.getStatusid() == 2)
             {
                 System.out.println("Usuario invalido");
                 return -1;
@@ -87,4 +88,24 @@ public class UsuarioController {
             return -1;
         }
     }
+
+    public int DeletarUsuario(Usuario usuario)
+    {
+        try {
+            if(usuario.getStatusid()==1)
+            {
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                return usuarioDAO.DeletarUsuario(usuario.getUsuarioid());
+            }
+            else{
+                System.out.println("Usuario impedido de ser deletado. Possui pendencia");
+                return -1;
+            }
+        } catch (Exception e) {
+            //TODO: handle exception
+            System.out.println("Erro na controller");
+            return -1;
+        }
+    }
+
 }

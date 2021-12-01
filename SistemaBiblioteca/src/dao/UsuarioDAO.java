@@ -322,4 +322,29 @@ public class UsuarioDAO {
             return -1;
         }
     }
+
+    public int DeletarUsuario(int usuarioId)
+    {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String query="";
+        try {
+            query =" update usuario set statusid = 2 where    usuarioid = "+ Integer.toString(usuarioId);
+
+            conn  = ConnectionFactory.getConnection();
+            stmt = conn.prepareStatement(query);
+            stmt.executeUpdate();
+            System.out.println("Usuario deletado com sucesso!!");
+            return 1;
+        } catch (SQLException e) {
+            //TODO: handle exception
+            e.printStackTrace();
+            return -1;
+        }catch (Exception e) {
+            //TODO: handle exception
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

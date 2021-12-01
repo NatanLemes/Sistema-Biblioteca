@@ -169,9 +169,29 @@ public class UsuarioView {
             usuario.setCpf(teclado.nextLine());
 
             usuario.setUsuarioid(usu.get(0).getUsuarioid());
+            usuario.setStatusid(usu.get(0).getStatusid());
             usuarioController.EditarUsuario(usuario);
             
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DeletarUsuario()
+    {
+        try {
+            Scanner teclado = new Scanner(System.in);
+            Usuario usuario = new Usuario();
+            List<Usuario> usu = new ArrayList<Usuario>();
+            UsuarioController usuarioController = new UsuarioController();
+
+            String cpf="";
+            System.out.println("Digite o CPF do usuario que sera deletado: ");
+            cpf = teclado.nextLine();
+            usu = usuarioController.buscarUsuarios(cpf);
+
+            usuarioController.DeletarUsuario(usu.get(0));
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
