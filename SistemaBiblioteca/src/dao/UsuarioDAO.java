@@ -327,7 +327,6 @@ public class UsuarioDAO {
     {
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         String query="";
         try {
             query =" update usuario set statusid = 2 where    usuarioid = "+ Integer.toString(usuarioId);
