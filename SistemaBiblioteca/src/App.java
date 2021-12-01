@@ -11,7 +11,8 @@ public class App {
         // usuarioView.insert();
         // usuarioView.buscarUsuarios();
         // usuarioView.buscarUsuarioPorCpf();
-        usuarioView.LogarSistema();
+        // usuarioView.LogarSistema();
+        usuarioView.EditarUsuario();
         // livroView.insert();
         // livroView.buscaLivros();
         // livroView.buscaLivroPorNome();

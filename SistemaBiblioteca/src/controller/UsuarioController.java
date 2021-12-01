@@ -64,4 +64,27 @@ public class UsuarioController {
         }
         return retorno;
     }
+
+    public int EditarUsuario(Usuario usuario)
+    {
+        try {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            if (usuario.getUsuarioid() == 0 || usuario == null)
+            {
+                System.out.println("Usuario invalido");
+                return -1;
+            }
+            else
+            {
+                if(usuarioDAO.EditarUsuario(usuario)==1)
+                    return 1;
+                else
+                    return -1;
+            }
+        } catch (Exception e) {
+            //TODO: handle exception
+            System.out.println("Erro na controller");
+            return -1;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package view;
 
+import java.util.*;
 import java.util.Scanner;
 
 import controller.UsuarioController;
@@ -124,5 +125,54 @@ public class UsuarioView {
         }
         else 
             System.out.println("Erro no login");
+    }
+
+
+    public void EditarUsuario()
+    {
+        try {
+            Scanner teclado = new Scanner(System.in);
+            Usuario usuario = new Usuario();
+            List<Usuario> usu = new ArrayList<Usuario>();
+            UsuarioController usuarioController = new UsuarioController();
+
+            String cpf="";
+            System.out.println("Digite o CPF do usuario que sera atualizado: ");
+            cpf = teclado.nextLine();
+            usu = usuarioController.buscarUsuarios(cpf);
+
+
+            System.out.println("DIGITE OS DADOS ATUALIZADOS --------------");
+            System.out.println("Nome: ");
+            usuario.setNome(teclado.nextLine());
+            System.out.println("Data Nascimento: ");
+            usuario.setDataNascimento(teclado.nextLine());
+            System.out.println("Telefone: ");
+            usuario.setTelefone(teclado.nextLine());
+            System.out.println("Celular: ");
+            usuario.setCelular(teclado.nextLine());
+            System.out.println("Endereco: ");
+            usuario.setEndereco(teclado.nextLine());
+            System.out.println("Numero: ");
+            usuario.setNumero(teclado.nextLine());
+            System.out.println("Complemento: ");
+            usuario.setComplemento(teclado.nextLine());
+            System.out.println("Cep: ");
+            usuario.setCep(teclado.nextLine());
+            System.out.println("Bairro: ");
+            usuario.setBairro(teclado.nextLine());
+            System.out.println("Cidade: ");
+            usuario.setCidade(teclado.nextLine());
+            System.out.println("Estado: ");
+            usuario.setEstado(teclado.nextLine());
+            System.out.println("Cpf: ");
+            usuario.setCpf(teclado.nextLine());
+
+            usuario.setUsuarioid(usu.get(0).getUsuarioid());
+            usuarioController.EditarUsuario(usuario);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -242,4 +242,84 @@ public class UsuarioDAO {
         }
         return idUsuario;
     }
+
+
+    public int EditarUsuario(Usuario usuario)
+    {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String query = "EXEC SP_ATUALIZA_USUARIOS @USUARIOID = ?, @NOME = ? , ";
+        query += " @CPF= ?, ";      
+        query += "@DATA_NASCIMENTO= ?,    ";    
+        query += " @DDD_CEL=  ?,       "; 
+        query += " @CELULAR= ?,     ";   
+        query += " @DDD_TEL= ?,     ";  
+        query += "@TELEFONE= ?,    ";   
+        // query += "@EMAIL= ?,      "; 
+        query += "@ENDERECO= ?,  ";      
+        query += "@NUMERO = ?,  ";      
+        query += " @BAIRRO = ?,  ";      
+        query += "@CIDADE = ?,     ";   
+        query += " @ESTADO  = ?,  ";      
+        query += "@CEP = ?,        ";
+        query += "@COMPLEMENTO = ?,  ";                   
+        query += "@FOTO = NULL  ";                   
+
+        String validacaoCPF = "select	count(1) as qtd";
+        validacaoCPF += " from	Usuario u ";
+        validacaoCPF += " where u.CPF ='"+ usuario.getCpf() +"' and u.usuarioid <> "+Integer.toString(usuario.getUsuarioid());
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int qtdCpf = 0;
+
+        try {
+
+           conn  = ConnectionFactory.getConnection();
+           stmt = conn.prepareStatement(query);
+           stmt.setString(1, Integer.toString(usuario.getUsuarioid()));
+           stmt.setString(2, usuario.getNome());
+           stmt.setString(3, usuario.getCpf());
+           stmt.setString(4, usuario.getDataNascimento());
+           stmt.setString(5, "");
+           stmt.setString(6, usuario.getCelular());
+           stmt.setString(7, "");
+           stmt.setString(8, usuario.getTelefone());
+           stmt.setString(9, usuario.getEndereco());
+           stmt.setString(10, usuario.getNumero());
+           stmt.setString(11, usuario.getBairro());
+           stmt.setString(12, usuario.getCidade());
+           stmt.setString(13, usuario.getEstado());
+           stmt.setString(14, usuario.getCep());
+           stmt.setString(15, usuario.getComplemento());
+
+           ps = conn.prepareStatement(validacaoCPF);
+        //    ps.setString(1, usuario.getCpf());
+        //    ps.setString(2, Integer.toString(usuario.getUsuarioid()));
+           rs = ps.executeQuery();
+           while(rs.next())
+                qtdCpf = Integer.parseInt(rs.getString("qtd"));
+
+           System.out.println(qtdCpf);
+           
+           if(qtdCpf<=0)
+           {
+               stmt.executeUpdate();
+               System.out.println("Usuario atualizado com sucesso!!");
+               return 1;
+           }
+           
+           else
+           {
+               System.out.println("CPF ja existe em outro cadastro.");
+                return -1;
+           }
+            
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }
