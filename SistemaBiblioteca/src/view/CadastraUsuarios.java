@@ -118,11 +118,8 @@ public class CadastraUsuarios extends javax.swing.JFrame {
         jLabel14.setText("Privilégio");
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        // jFormattedTextField1 = new JFormattedTextField( new MaskFormatter("##-##-####"));
 
-
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Selecione" ,"Funcionário", "Cliente" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Funcionário", "Cliente" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -244,7 +241,6 @@ public class CadastraUsuarios extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        //jMenu1.setIcon(new javax.swing.ImageIcon("C:\\Users\\danie\\Documents\\NetBeansProjects\\InterfaceBiblioteca\\src\\main\\java\\images\\book.png")); // NOI18N
         jMenu1.setText("Livros");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -253,7 +249,6 @@ public class CadastraUsuarios extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu1);
 
-        //jMenu2.setIcon(new javax.swing.ImageIcon("C:\\Users\\danie\\Documents\\NetBeansProjects\\InterfaceBiblioteca\\src\\main\\java\\images\\user.png")); // NOI18N
         jMenu2.setText("Usuários");
         jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -262,7 +257,6 @@ public class CadastraUsuarios extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu2);
 
-        //jMenu3.setIcon(new javax.swing.ImageIcon("C:\\Users\\danie\\Documents\\NetBeansProjects\\InterfaceBiblioteca\\src\\main\\java\\images\\stop.png")); // NOI18N
         jMenu3.setText("Sair");
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

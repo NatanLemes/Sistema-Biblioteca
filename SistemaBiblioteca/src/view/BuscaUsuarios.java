@@ -45,6 +45,8 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btEditar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -73,53 +75,24 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-
-                UsuarioController usuarioController = new UsuarioController();
-            Object[][]obj = new Object[][]{
-                {null,null,null}
-            };
-
-            if(jTextField2.getText().isEmpty())
-            {
-                List<Usuario> lstUsu= new ArrayList<Usuario>();
-                lstUsu = usuarioController.buscarUsuarios();
-                Object[][] objUsuTot =new Object[lstUsu.size()][4];
-                for(int i=0;i<lstUsu.size();i++)
-                    {
-                        objUsuTot[i][0]=lstUsu.get(i).getNome();
-                        objUsuTot[i][1]=lstUsu.get(i).getCpf();
-                        objUsuTot[i][2]=lstUsu.get(i).getStatus();
-                        objUsuTot[i][3]="";
-                    }
-
-                    obj = objUsuTot;
-                }else{
-                    List<Usuario> lstUsu= new ArrayList<Usuario>();
-                    lstUsu = usuarioController.buscarUsuarios(jTextField2.getText());
-                    Object[][] objUsuPorCpf =new Object[lstUsu.size()][4];
-                    for(int i=0;i<lstUsu.size();i++)
-                    {
-                        objUsuPorCpf[i][0]=lstUsu.get(i).getNome();
-                        objUsuPorCpf[i][1]=lstUsu.get(i).getCpf();
-                        objUsuPorCpf[i][2]=lstUsu.get(i).getStatus();
-                        objUsuPorCpf[i][3]="";
-                    }
-
-                    obj = objUsuPorCpf;
-                }
-
-                jTable1.setModel(new javax.swing.table.DefaultTableModel(
-             obj,
-                new String [] {
-                "Nome", "CPF", "Situação", "Ações"
-            }
-            ));
-            
             }
         });
 
-        
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null}
+            },
+            new String [] {
+                "Nome", "CPF", "Situação"
+            }
+        ));
         jScrollPane1.setViewportView(jTable1);
+
+        btEditar.setText("Editar");
+        btEditar.setEnabled(false);
+
+        btExcluir.setText("Excluir");
+        btExcluir.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,6 +111,12 @@ public class BuscaUsuarios extends javax.swing.JFrame {
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btEditar)
+                .addGap(21, 21, 21)
+                .addComponent(btExcluir)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,11 +130,14 @@ public class BuscaUsuarios extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btEditar)
+                    .addComponent(btExcluir))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        // jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/book.png"))); // NOI18N
         jMenu1.setText("Livros");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -164,7 +146,6 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu1);
 
-        // jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user.png"))); // NOI18N
         jMenu2.setText("Usuários");
         jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -173,7 +154,6 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu2);
 
-        // jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/stop.png"))); // NOI18N
         jMenu3.setText("Sair");
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -279,6 +259,8 @@ public class BuscaUsuarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btEditar;
+    private javax.swing.JButton btExcluir;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
