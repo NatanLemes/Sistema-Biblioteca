@@ -4,6 +4,12 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import controller.LivroController;
+import model.Livro;
+
 /**
  *
  * @author danie
@@ -43,7 +49,7 @@ public class BuscaLivros extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-
+       
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,20 +70,54 @@ public class BuscaLivros extends javax.swing.JFrame {
         jLabel4.setText("Título");
 
         jButton2.setText("Pesquisar");
+        
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-            }
-        });
+                LivroController livroController = new LivroController();
+                Object[][]obj =new Object [][] {
+                    {null, null, null}
+                };
+                if (jTextField2.getText().isEmpty())
+                {
+                    List<Livro> lstLivros = new ArrayList<Livro>();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null}
-            },
+                    lstLivros = livroController.BuscaLivros();
+                    Object[][] objLivroTotal = new Object[lstLivros.size()][3];
+                    for(int i=0;i<lstLivros.size();i++)
+                    {
+                        objLivroTotal[i][0]=lstLivros.get(i).getNome();
+                        objLivroTotal[i][1]=lstLivros.get(i).getSituacao();
+                        objLivroTotal[i][2]="";
+                    }
+
+                    obj = objLivroTotal;
+                }else{
+                    List<Livro> lstLivros = new ArrayList<Livro>();
+
+                    lstLivros = livroController.BuscaLivros(jTextField2.getText());
+                    Object[][] objLivroPorNome = new Object[lstLivros.size()][3];
+                    for(int i=0;i<lstLivros.size();i++)
+                    {
+                        objLivroPorNome[i][0]=lstLivros.get(i).getNome();
+                        objLivroPorNome[i][1]=lstLivros.get(i).getSituacao();
+                        objLivroPorNome[i][2]="";
+                    }
+
+                    obj = objLivroPorNome;
+                }
+
+                jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            obj,
             new String [] {
                 "Título", "Situação", "Ações"
             }
         ));
+            }
+        });
+        
+
+        
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
