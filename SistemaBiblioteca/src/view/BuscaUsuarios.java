@@ -4,6 +4,12 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import controller.UsuarioController;
+import model.Usuario;
+
 /**
  *
  * @author danie
@@ -67,17 +73,52 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+
+                UsuarioController usuarioController = new UsuarioController();
+            Object[][]obj = new Object[][]{
+                {null,null,null}
+            };
+
+            if(jTextField2.getText().isEmpty())
+            {
+                List<Usuario> lstUsu= new ArrayList<Usuario>();
+                lstUsu = usuarioController.buscarUsuarios();
+                Object[][] objUsuTot =new Object[lstUsu.size()][4];
+                for(int i=0;i<lstUsu.size();i++)
+                    {
+                        objUsuTot[i][0]=lstUsu.get(i).getNome();
+                        objUsuTot[i][1]=lstUsu.get(i).getCpf();
+                        objUsuTot[i][2]=lstUsu.get(i).getStatus();
+                        objUsuTot[i][3]="";
+                    }
+
+                    obj = objUsuTot;
+                }else{
+                    List<Usuario> lstUsu= new ArrayList<Usuario>();
+                    lstUsu = usuarioController.buscarUsuarios(jTextField2.getText());
+                    Object[][] objUsuPorCpf =new Object[lstUsu.size()][4];
+                    for(int i=0;i<lstUsu.size();i++)
+                    {
+                        objUsuPorCpf[i][0]=lstUsu.get(i).getNome();
+                        objUsuPorCpf[i][1]=lstUsu.get(i).getCpf();
+                        objUsuPorCpf[i][2]=lstUsu.get(i).getStatus();
+                        objUsuPorCpf[i][3]="";
+                    }
+
+                    obj = objUsuPorCpf;
+                }
+
+                jTable1.setModel(new javax.swing.table.DefaultTableModel(
+             obj,
+                new String [] {
+                "Nome", "CPF", "Situação", "Ações"
+            }
+            ));
+            
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nome", "CPF", "Situação", "Ações"
-            }
-        ));
+        
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -114,7 +155,7 @@ public class BuscaUsuarios extends javax.swing.JFrame {
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/book.png"))); // NOI18N
+        // jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/book.png"))); // NOI18N
         jMenu1.setText("Livros");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -123,7 +164,7 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user.png"))); // NOI18N
+        // jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user.png"))); // NOI18N
         jMenu2.setText("Usuários");
         jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -132,7 +173,7 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/stop.png"))); // NOI18N
+        // jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/stop.png"))); // NOI18N
         jMenu3.setText("Sair");
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
