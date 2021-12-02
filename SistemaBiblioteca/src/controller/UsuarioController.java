@@ -8,13 +8,14 @@ import model.Usuario;
 
 public class UsuarioController {
 
-    public void insert(Usuario usuario)
+    public int insert(Usuario usuario)
     {
         try {
             UsuarioDAO usuDao = new UsuarioDAO();
-            usuDao.Insert(usuario);
+            return usuDao.Insert(usuario);
         } catch (Exception e) {
             System.out.println("Erro na controller");
+            return -1;
         }
     }
     

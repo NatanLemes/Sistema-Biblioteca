@@ -4,6 +4,12 @@
  */
 package view;
 
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+
+import controller.LivroController;
+import model.Livro;
+
 /**
  *
  * @author danie
@@ -192,6 +198,35 @@ public class CadastraLivros extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+
+        // jTextField1.setText("1");
+        // jTextField2.setText("2");
+        // jTextField3.setText("3");
+        // jFormattedTextField1.setText("4");
+
+        if(jTextField1.getText().isEmpty() || jTextField1.getText().isEmpty() || jTextField1.getText().isEmpty() || jFormattedTextField1.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Por favor preencha os campos obrigatorios!","Errode cadastro",  JOptionPane.ERROR_MESSAGE);
+                System.out.println("Erro no login");
+        }else{
+
+            Livro livro = new Livro();
+            LivroController livroController = new LivroController();
+            livro.setDataLancamento(jFormattedTextField1.getText());
+            livro.setEditora(jTextField3.getText());
+            livro.setEscritor(jTextField2.getText());
+            livro.setNome(jTextField1.getText());
+
+            if(livroController.Insert(livro)==1)
+            {
+                JOptionPane.showMessageDialog(null, "Usuario Cadastrado!","Sucesso!",  JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Erro no Cadastro, entre em contato com nosso suporte.","Erro!",  JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked

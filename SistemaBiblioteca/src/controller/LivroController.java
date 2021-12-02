@@ -8,13 +8,14 @@ import model.Livro;
 
 public class LivroController {
 
-    public void Insert(Livro livro)
+    public int Insert(Livro livro)
     {
         try {
             LivroDAO livroDAO = new LivroDAO();
-            livroDAO.Insert(livro);
+            return livroDAO.Insert(livro);
         } catch (Exception e) {
             System.out.println("Erro na controller");
+            return -1;
         }
     }
 

@@ -9,7 +9,7 @@ import model.Livro;
 
 public class LivroDAO {
     
-    public void Insert(Livro livro)
+    public int Insert(Livro livro)
     {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -30,13 +30,16 @@ public class LivroDAO {
            
            stmt.executeUpdate();
            System.out.println("Livro inserido no banco com sucesso!!");
+           return 1;
 
         } catch (SQLException e)
         {
             e.printStackTrace();
+            return -1;
         }
         catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }finally
         {
             ConnectionFactory.closeConnection(conn, stmt);

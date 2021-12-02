@@ -4,6 +4,13 @@
  */
 package view;
 
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
+
+import controller.UsuarioController;
+import model.Usuario;
+
 /**
  *
  * @author danie
@@ -111,8 +118,11 @@ public class CadastraUsuarios extends javax.swing.JFrame {
         jLabel14.setText("Privilégio");
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        // jFormattedTextField1 = new JFormattedTextField( new MaskFormatter("##-##-####"));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Funcionário", "Cliente" }));
+
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Selecione" ,"Funcionário", "Cliente" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -285,6 +295,52 @@ public class CadastraUsuarios extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+            //  jTextField1.setText("Aquiii");
+            //  jTextField2.setText("2");
+            //  jTextField3.setText("3");
+            //  jTextField4.setText("4");
+            //  jTextField5.setText("5");
+            //  jTextField6.setText("6");
+            //  jTextField7.setText("7");
+            //  jTextField8.setText("8");
+            //  jTextField9.setText("9");
+            //  jTextField10.setText("10");
+            // jFormattedTextField1.setText("20200202");
+            // System.out.println(jComboBox3.getSelectedItem().toString());
+
+            if(jTextField9.getText().isEmpty() || jTextField8.getText().isEmpty() || jTextField10.getText().isEmpty() || jComboBox3.getSelectedIndex()==0)
+            {
+                JOptionPane.showMessageDialog(null, "Por favor preencha os campos obrigatorios!","Errode cadastro",  JOptionPane.ERROR_MESSAGE);
+                System.out.println("Erro no login");
+            }else{
+                int retorno;
+                Usuario usu= new Usuario();
+
+                UsuarioController usuarioController = new UsuarioController();
+
+                usu.setNome(jTextField9.getText());
+                usu.setDataNascimento(jFormattedTextField1.getText());
+                usu.setTelefone(jTextField2.getText());
+                usu.setCelular(jTextField3.getText());
+                usu.setCep(jTextField4.getText());
+                usu.setEndereco(jTextField10.getText());
+                usu.setNumero(jTextField5.getText());
+                usu.setComplemento(jTextField6.getText());
+                usu.setBairro(jTextField7.getText());
+                usu.setEstado(jTextField1.getText());
+                usu.setCpf(jTextField8.getText());
+                int privilegioid = jComboBox3.getSelectedIndex()==1? 2:3;
+                usu.setPrivilegioid(privilegioid);
+                retorno = usuarioController.insert(usu);
+                if(retorno == -2)
+                    JOptionPane.showMessageDialog(null, "CPF Ja cadastrado!","Erro!",  JOptionPane.ERROR_MESSAGE);
+                else if(retorno == 0 || retorno == -1)
+                    JOptionPane.showMessageDialog(null, "Erro no Cadastro, entre em contato com nosso suporte.","Erro!",  JOptionPane.ERROR_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(null, "Usuario Cadastrado!","Sucesso!",  JOptionPane.INFORMATION_MESSAGE);
+                
+            }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed

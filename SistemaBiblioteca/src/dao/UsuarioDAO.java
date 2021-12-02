@@ -13,7 +13,7 @@ import model.Usuario;
 
 public class UsuarioDAO {
     
-    public void Insert(Usuario usuario)
+    public int Insert(Usuario usuario)
     {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -32,7 +32,7 @@ public class UsuarioDAO {
         query += " @ESTADO  = ?,  ";      
         query += "@CEP = ?,        ";
         query += "@COMPLEMENTO = ?,   ";                   
-        query += " @PRIVILEGIOID = 3";
+        query += " @PRIVILEGIOID = ?";
 
 
         String validacaoCPF = "select	count(1) as qtd";
@@ -61,6 +61,7 @@ public class UsuarioDAO {
            stmt.setString(13, usuario.getEstado());
            stmt.setString(14, usuario.getCep());
            stmt.setString(15, usuario.getComplemento());
+           stmt.setString(16, Integer.toString(usuario.getPrivilegioid()));
 
            ps = conn.prepareStatement(validacaoCPF);
            ps.setString(1, usuario.getCpf());
@@ -74,17 +75,23 @@ public class UsuarioDAO {
            {
                stmt.executeUpdate();
                System.out.println("Aluno inserido no banco com sucesso!!");
+               return 1;
            }
            
            else
-                System.out.println("CPF ja existe");
+           {
+               System.out.println("CPF ja existe");
+                return -2;
+           }
 
         } catch (SQLException e)
         {
             e.printStackTrace();
+            return -1;
         }
         catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }finally
         {
             ConnectionFactory.closeConnection(conn, stmt);
