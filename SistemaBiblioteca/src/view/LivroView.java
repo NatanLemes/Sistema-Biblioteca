@@ -1,5 +1,7 @@
 package view;
 
+import java.util.*;
+import java.util.List;
 import java.util.Scanner;
 
 import controller.LivroController;
@@ -52,12 +54,12 @@ public class LivroView {
     public void buscaLivroPorNome()
     {
         Scanner teclado = new Scanner(System.in);
-        LivroController usuarioController = new LivroController();
+        LivroController livroController = new LivroController();
         System.out.println("****************************************");
         System.out.println("Qual livro deseja buscar? ");
         String filtro = teclado.nextLine();
 
-        for (Livro x : usuarioController.BuscaLivros(filtro)) {
+        for (Livro x : livroController.BuscaLivros(filtro)) {
 
             System.out.println("**_____________________________________**");
             System.out.println(" ");
@@ -70,5 +72,31 @@ public class LivroView {
         }
     }
     
+    public void EditarLivro()
+    {
+        try {
+            Scanner teclado = new Scanner(System.in);
+            Livro livro = new Livro();
+            LivroController livroController = new LivroController();
+            System.out.println("****************************************");
+            System.out.println("Qual livro deseja buscar? ");
+            String filtro = teclado.nextLine();
+
+            livro = livroController.BuscaLivros(filtro).get(0);
+            
+            System.out.println("Inserir Livro");
+            System.out.println("Nome: ");
+            livro.setNome(teclado.nextLine());
+            System.out.println("Data Lancamento: ");
+            livro.setDataLancamento(teclado.nextLine());
+            System.out.println("Editora: ");
+            livro.setEditora(teclado.nextLine());
+            System.out.println("Escritor: ");
+            livro.setEscritor(teclado.nextLine());
     
+            livroController.EditarLivro(livro);            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

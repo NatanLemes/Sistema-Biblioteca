@@ -39,4 +39,17 @@ public class LivroController {
         }
         return livros;
     }
+
+    public int EditarLivro(Livro livro)
+    {
+        try {
+            if (livro.getSituacaoId()!= 1)
+                return -1;
+            else
+                return new LivroDAO().EditarLivro(livro);
+        } catch (Exception e) {
+            System.out.println("Erro na controller");
+            return -1;
+        }
+    }
 }

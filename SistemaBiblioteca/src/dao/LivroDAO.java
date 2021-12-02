@@ -144,4 +144,43 @@ public class LivroDAO {
 
         return livros;
     }
+
+    public int EditarLivro(Livro livro)
+    {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String query = "EXEC SP_ATUALIZA_LIVROS @NOME = ? ,";      
+        query += "@EDITORA  = ? ,";   
+        query += "@ESCRITOR = ? ,";     
+        query += "@DATA_LANCAMENTO  = ?, ";    
+        query += "@LIVROID  = ? ";    
+      
+        try {
+
+           conn  = ConnectionFactory.getConnection();
+           stmt = conn.prepareStatement(query);
+           stmt.setString(1, livro.getNome());
+           stmt.setString(2, livro.getEditora());
+           stmt.setString(3, livro.getEscritor());
+           stmt.setString(4, livro.getDataLancamento());
+           stmt.setString(5, Integer.toString(livro.getLivroId()));
+
+           
+           stmt.executeUpdate();
+           System.out.println("Livro atualizado com sucesso!!");
+
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return -1;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }finally
+        {
+            ConnectionFactory.closeConnection(conn, stmt);
+        }
+        return 1;
+    }
 }

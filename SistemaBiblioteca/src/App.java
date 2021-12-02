@@ -13,10 +13,11 @@ public class App {
         // usuarioView.buscarUsuarioPorCpf();
         // usuarioView.LogarSistema();
         // usuarioView.EditarUsuario();
-        usuarioView.DeletarUsuario();
+        // usuarioView.DeletarUsuario();
         // livroView.insert();
         // livroView.buscaLivros();
         // livroView.buscaLivroPorNome();
+        // livroView.EditarLivro();
         // emprestimoView.GerarEmprestimo();
         // emprestimoView.GerarDevolucao();
 
