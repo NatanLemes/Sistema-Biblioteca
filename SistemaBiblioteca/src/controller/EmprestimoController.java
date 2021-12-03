@@ -15,7 +15,7 @@ public class EmprestimoController {
             {
                 System.out.println("Livro indisponivel para Emprestimo");
                 return -1;
-            }else if(usu.getStatusid()!= 1){
+            }else if(!usu.getStatus().equals("Ativo")){
                 System.out.println("Usuario impedido de gerar emprestimo");
             }else if(livro.equals(null) || livro.getLivroId()==0)
             {

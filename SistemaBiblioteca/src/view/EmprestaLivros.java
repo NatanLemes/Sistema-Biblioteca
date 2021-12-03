@@ -4,6 +4,17 @@
  */
 package view;
 
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import controller.EmprestimoController;
+import controller.UsuarioController;
+import model.Livro;
+import model.Usuario;
+
 /**
  *
  * @author danie
@@ -13,10 +24,10 @@ public class EmprestaLivros extends javax.swing.JFrame {
     /**
      * Creates new form TelaLogin
      */
-    public EmprestaLivros() {
-        initComponents();
+    public EmprestaLivros(Livro livro) {
+        initComponents(livro);
     }
-
+    List<Usuario> usuariosValidos = new ArrayList<>();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -24,7 +35,7 @@ public class EmprestaLivros extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(Livro livro) {
 
         jSeparator1 = new javax.swing.JSeparator();
         jPopupMenu1 = new javax.swing.JPopupMenu();
@@ -46,6 +57,22 @@ public class EmprestaLivros extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
+        List<Usuario>  lstUsu = new ArrayList<Usuario>();
+        lstUsu = new UsuarioController().buscarUsuarios();
+        jComboBox1.addItem("Selecione");
+        for (Usuario usuario : lstUsu) {
+            if(usuario.getStatus().equals("Ativo"))
+            {
+                jComboBox1.addItem(usuario.getNome()+" - "+usuario.getPrivilegio());
+                usuariosValidos.add(usuario);
+            }   
+        }
+        // for (Usuario usuario : lstUsu) {
+        //     System.out.println(usuario.getUsuarioid());
+        //     System.out.println(usuario.getStatus());
+        //     System.out.println(usuario.getStatusid());
+        // }
+        System.out.println(jComboBox1.getSelectedIndex());
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
@@ -55,11 +82,31 @@ public class EmprestaLivros extends javax.swing.JFrame {
         jLabel1.setText("Emprestar Livros");
 
         jLabel2.setText("Livro");
+        jTextField5.setText(livro.getNome());
 
         jButton2.setText("Emprestar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+
+                EmprestimoController    emprestimoController = new EmprestimoController();
+                if(jComboBox1.getSelectedIndex()==0)
+                {
+                    JOptionPane.showMessageDialog(null, "Por favor selecione um cliente para efetuar o emprestimo!!","Erro!",  JOptionPane.ERROR_MESSAGE);
+                }else{
+                    int pos = jComboBox1.getSelectedIndex()-1;
+                    int retorno = emprestimoController.GerarEmprestimo(usuariosValidos.get(pos), livro);
+                    if(retorno==1)
+                    {
+                    JOptionPane.showMessageDialog(null, "Emprestimo Gerado com Sucesso!","Sucesso!",  JOptionPane.INFORMATION_MESSAGE);
+                    new BuscaLivros().setVisible(true);
+                    dispose();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "Erro no emprestimo, entre em contato com nosso suporte.","Erro!",  JOptionPane.ERROR_MESSAGE);
+                
+                }
+                
             }
         });
 
@@ -166,6 +213,11 @@ public class EmprestaLivros extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+
+        EmprestimoController empController = new EmprestimoController();
+        Usuario usuario = new Usuario();
+        Livro livro = new Livro();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
@@ -231,7 +283,8 @@ public class EmprestaLivros extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EmprestaLivros().setVisible(true);
+                Livro livro= new Livro();
+                new EmprestaLivros(livro).setVisible(true);
             }
         });
     }

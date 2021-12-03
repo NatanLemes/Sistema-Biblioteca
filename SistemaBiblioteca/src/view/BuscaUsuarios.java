@@ -10,6 +10,8 @@ import java.util.List;
 import controller.UsuarioController;
 import model.Usuario;
 
+
+
 /**
  *
  * @author danie
@@ -22,7 +24,9 @@ public class BuscaUsuarios extends javax.swing.JFrame {
     public BuscaUsuarios() {
         initComponents();
     }
-
+    List<Integer> lstIds = new ArrayList<Integer>();
+    List<Integer> lstSits = new ArrayList<Integer>();
+    Usuario lstUsu = new Usuario();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,19 +79,83 @@ public class BuscaUsuarios extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-            }
-        });
+                UsuarioController usuarioController = new UsuarioController();
+                Object[][]obj =new Object [][] {
+                    {null, null, null}
+                };
+                if(jTextField2.getText().isEmpty())
+                {
+                    List<Usuario> lstUsuario = new ArrayList<Usuario>();
+                    lstUsuario= usuarioController.buscarUsuarios();
+                    Object[][] objUsuTotal = new Object[lstUsuario.size()][3];
+                    System.out.println(lstUsuario.size());
+                    for(int i=0;i<lstUsuario.size();i++)
+                    {
+                        objUsuTotal[i][0]=lstUsuario.get(i).getNome();
+                        objUsuTotal[i][1]=lstUsuario.get(i).getCpf();
+                        objUsuTotal[i][2]=lstUsuario.get(i).getStatus();
+                    }
+                    obj= objUsuTotal;
+                }else{
+                    List<Usuario> lstUsuario = new ArrayList<Usuario>();
+                    lstUsuario= usuarioController.buscarUsuarios(jTextField2.getText());
+                    Object[][] objUsuPorCPF = new Object[lstUsuario.size()][3];
+                    for(int i=0;i<lstUsuario.size();i++)
+                    {
+                        objUsuPorCPF[i][0]=lstUsuario.get(i).getNome();
+                        objUsuPorCPF[i][1]=lstUsuario.get(i).getCpf();
+                        objUsuPorCPF[i][2]=lstUsuario.get(i).getStatus();
+                        lstSits.add(lstUsuario.get(i).getStatusid());
+                    }
+                    obj = objUsuPorCPF;
+                }
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null}
-            },
+                jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            obj,
             new String [] {
                 "Nome", "CPF", "Situação"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ){
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+        
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
 
+            }
+        });
+
+        
+
+        jScrollPane1.setViewportView(jTable1);
+        
+if (jTable1.getColumnModel().getColumnCount() > 0) {
+    jTable1.getColumnModel().getColumn(0).setResizable(false);
+    jTable1.getColumnModel().getColumn(1).setResizable(false);
+    jTable1.getColumnModel().getColumn(2).setResizable(false);
+} 
+
+jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        if(jTable1.getSelectedRow()>=0)
+        {   
+            lstUsu = new Usuario();
+            List<Usuario>lvs = new ArrayList<>();
+            UsuarioController livroController = new UsuarioController();
+            lvs = livroController.buscarUsuarios(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString() );
+            // System.out.println(lvs.get(0).getNome());
+            // lstLiv = lvs.get(0);
+             
+                btEditar.setEnabled(true);
+                btExcluir.setEnabled(true);
+        }
+
+    }
+});
         btEditar.setText("Editar");
         btEditar.setEnabled(false);
 

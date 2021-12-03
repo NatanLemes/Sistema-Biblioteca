@@ -20,6 +20,7 @@ public class App {
         // livroView.EditarLivro();
         // emprestimoView.GerarEmprestimo();
         // emprestimoView.GerarDevolucao();
+        // livroView.buscaLivroPorId();
 
 
     }

@@ -4,6 +4,18 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputListener;
+
+import org.w3c.dom.events.MouseEvent;
+
+import controller.EmprestimoController;
+import controller.LivroController;
+import model.Livro;
+
 /**
  *
  * @author danie
@@ -16,6 +28,9 @@ public class BuscaLivros extends javax.swing.JFrame {
     public BuscaLivros() {
         initComponents();
     }
+    List<Integer> lstIds = new ArrayList<Integer>();
+    List<Integer> lstSits = new ArrayList<Integer>();
+    Livro lstLiv = new Livro();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,42 +76,147 @@ public class BuscaLivros extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
+        
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Buscar Livros");
-
+        
         jLabel4.setText("Título");
 
         jButton2.setText("Pesquisar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+                lstIds = new ArrayList<Integer>();
+                lstSits = new ArrayList<Integer>();
+                LivroController livroController = new LivroController();
+                Object[][]obj= new Object[][]{
+                    {null,null}
+                };
+                if(jTextField2.getText().isEmpty())
+                {
+                    List<Livro> lstLivro = new  ArrayList<>();
+                    lstLivro = livroController.BuscaLivros();
+                    Object[][] objLivroTotal = new Object[lstLivro.size()][3];
+                    for(int i=0;i<lstLivro.size();i++)
+                    {
+                        objLivroTotal[i][0]=lstLivro.get(i).getNome();
+                        objLivroTotal[i][1]=lstLivro.get(i).getSituacao();
+                        lstIds.add(lstLivro.get(i).getLivroId());
+                        lstSits.add(lstLivro.get(i).getSituacaoId());
+
+                    }
+                    obj = objLivroTotal;
+                    // System.out.println(lstIds.size());
+
+                }else{
+                    List<Livro> lstLivro = new  ArrayList<>();
+                    lstLivro = livroController.BuscaLivros(jTextField2.getText());
+                    Object[][] objLivroPorNome = new Object[lstLivro.size()][3];
+                    for(int i=0;i<lstLivro.size();i++)
+                    {
+                        objLivroPorNome[i][0]=lstLivro.get(i).getNome();
+                        objLivroPorNome[i][1]=lstLivro.get(i).getSituacao();
+                        lstIds.add(lstLivro.get(i).getLivroId());
+                        lstSits.add(lstLivro.get(i).getSituacaoId());
+                    }
+                    obj = objLivroPorNome;
+                }
+                jTable1.setModel(new javax.swing.table.DefaultTableModel(obj,new String [] {"Título", "Situação"}){
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+            
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+    }
+});
+
+    jScrollPane1.setViewportView(jTable1);
+
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        } 
+
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if(jTable1.getSelectedRow()>=0)
+                {   
+                    lstLiv = new Livro();
+                    List<Livro>lvs = new ArrayList<>();
+                    LivroController livroController = new LivroController();
+                    lvs = livroController.BuscaLivrosPorId(lstIds.get(jTable1.getSelectedRow()));
+                    // System.out.println(lvs.get(0).getNome());
+                    lstLiv = lvs.get(0);
+                    if(lstSits.get(jTable1.getSelectedRow())==2){
+                        btEmprestar.setEnabled(false);
+                        btDevolver.setEnabled(true);
+                        btEditar.setEnabled(false);
+                        btExcluir.setEnabled(false);
+                    }else if(lstSits.get(jTable1.getSelectedRow())!=1)
+                    {
+                        btEmprestar.setEnabled(false);
+                        btDevolver.setEnabled(false); 
+                        btEditar.setEnabled(false);
+                        btExcluir.setEnabled(false);
+                    } else{
+                        btEmprestar.setEnabled(true);
+                        btDevolver.setEnabled(false);
+                        btEditar.setEnabled(true);
+                        btExcluir.setEnabled(true);
+                    }
+                }
+
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null}
-            },
-            new String [] {
-                "Título", "Situação"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
         btEmprestar.setText("Emprestar");
         btEmprestar.setEnabled(false);
+
+
+        btEmprestar.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                new EmprestaLivros(lstLiv).setVisible(true);
+                dispose();
+            }
+        });
 
         btDevolver.setText("Devolver");
         btDevolver.setEnabled(false);
         btDevolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btDevolverActionPerformed(evt);
+
+                EmprestimoController emprestimoController = new EmprestimoController();
+                int retorno  = emprestimoController.GerarDevolucao(lstLiv);
+                if(retorno==1)
+                {
+                    JOptionPane.showMessageDialog(null, "Livro devolvido com Sucesso!","Sucesso!",  JOptionPane.INFORMATION_MESSAGE);
+                    new BuscaLivros().setVisible(true);
+                    dispose();
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Erro na devolução, entre em contato com nosso suporte.","Erro!",  JOptionPane.ERROR_MESSAGE);
+
+
             }
         });
 
         btEditar.setText("Editar");
         btEditar.setEnabled(false);
+
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDevolverActionPerformed(evt);
+                new EditaLivros(lstLiv).setVisible(true);
+                dispose();
+
+            }
+        });
 
         btExcluir.setText("Excluir");
         btExcluir.setEnabled(false);

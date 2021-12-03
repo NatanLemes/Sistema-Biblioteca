@@ -40,6 +40,16 @@ public class LivroController {
         }
         return livros;
     }
+    public List<Livro> BuscaLivrosPorId(int idLivro)
+    {
+        List<Livro> livros = new ArrayList<Livro>();
+        try {
+            livros =  new LivroDAO().BuscaLivrosPorId(idLivro);
+        } catch (Exception e) {
+            System.out.println("Erro na controller");
+        }
+        return livros;
+    }
 
     public int EditarLivro(Livro livro)
     {

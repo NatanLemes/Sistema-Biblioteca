@@ -71,6 +71,26 @@ public class LivroView {
 
         }
     }
+    public void buscaLivroPorId()
+    {
+        Scanner teclado = new Scanner(System.in);
+        LivroController livroController = new LivroController();
+        System.out.println("****************************************");
+        System.out.println("Qual livro deseja buscar? ");
+        int filtro = Integer.parseInt(teclado.nextLine());
+
+        for (Livro x : livroController.BuscaLivrosPorId(filtro)) {
+
+            System.out.println("**_____________________________________**");
+            System.out.println(" ");
+            System.out.println("Nome: " + x.getNome());
+            System.out.println("Data Lancamento: " + x.getDataLancamento());
+            System.out.println("Editora: "+x.getEditora());
+            System.out.println("Escritor: "+x.getEscritor());
+            System.out.println("Situacao do Livro: "+x.getSituacao());
+
+        }
+    }
     
     public void EditarLivro()
     {

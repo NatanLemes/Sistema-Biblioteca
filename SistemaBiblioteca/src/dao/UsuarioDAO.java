@@ -105,7 +105,7 @@ public class UsuarioDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String query = "select	u.usuarioid, u.nome, convert(varchar, u.dataNascimento, 103) as dataNascimento, Telefone, Celular, Endereco, Complemento, Numero, cep, Bairro, cidade,Estado, CPF, p.nome as privilegio, s.Nome as status ";
+        String query = "select	u.usuarioid, u.nome, convert(varchar, u.dataNascimento, 103) as dataNascimento, Telefone, Celular, Endereco, Complemento, Numero, cep, Bairro, cidade,Estado, CPF, p.nome as privilegio, s.Nome as status, u.statusid ";
         query += " from	Usuario u ";
         query += " inner	join Privilegio p on p.privilegioid = u.privilegioid ";
         query += " inner	join Status s on s.statusid = u.statusid where u.privilegioid <> 1 and u.statusid <> 2";
@@ -137,6 +137,7 @@ public class UsuarioDAO {
                 usuario.setPrivilegio(rs.getString("privilegio"));
                 usuario.setStatus(rs.getString("status"));
                 usuario.setUsuarioid(Integer.parseInt(rs.getString("usuarioid")));
+                usuario.setPrivilegioid(Integer.parseInt(rs.getString("statusid")));
 
                 usuarios.add(usuario);
             }

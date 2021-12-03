@@ -4,6 +4,11 @@
  */
 package view;
 
+import java.nio.channels.SelectableChannel;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 
@@ -14,13 +19,13 @@ import model.Livro;
  *
  * @author danie
  */
-public class CadastraLivros extends javax.swing.JFrame {
+public class EditaLivros extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaLogin
      */
-    public CadastraLivros() {
-        initComponents();
+    public EditaLivros(Livro livro) {
+        initComponents(livro);
     }
 
     /**
@@ -30,7 +35,7 @@ public class CadastraLivros extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(Livro livro) {
 
         jSeparator1 = new javax.swing.JSeparator();
         jPopupMenu1 = new javax.swing.JPopupMenu();
@@ -53,7 +58,17 @@ public class CadastraLivros extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
+        // livro.setDataLancamento(jFormattedTextField1.getText());
+        //             livro.setEditora(jTextField3.getText());
+        //             livro.setEscritor(jTextField2.getText());
+        //             livro.setNome(jTextField1.getText());
+
+
+        jTextField3.setText(livro.getEditora());
+        jTextField2.setText(livro.getEscritor());
+        jTextField1.setText(livro.getNome());
         jMenuItem1.setText("jMenuItem1");
+        // System.out.println(livro.getDataLancamento());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -61,7 +76,7 @@ public class CadastraLivros extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Cadastrar Livros");
+        jLabel1.setText("Editar Livros");
 
         jLabel3.setText("Título");
 
@@ -73,32 +88,28 @@ public class CadastraLivros extends javax.swing.JFrame {
 
         jLabel4.setText("Autor");
 
-        jButton2.setText("Cadastrar");
+        jButton2.setText("Editar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-                if(jTextField1.getText().isEmpty() || jTextField1.getText().isEmpty() || jTextField1.getText().isEmpty() || jFormattedTextField1.getText().isEmpty())
+
+                LivroController livroController = new LivroController();
+                livro.setNome(jTextField1.getText());
+                livro.setEditora(jTextField3.getText());
+                livro.setEscritor(jTextField2.getText());
+
+                int retorno = livroController.EditarLivro(livro);
+
+                if(retorno==1)
                 {
-                    JOptionPane.showMessageDialog(null, "Por favor preencha os campos obrigatorios!","Errode cadastro",  JOptionPane.ERROR_MESSAGE);
-                        System.out.println("Erro no login");
-                }else{
-        
-                    Livro livro = new Livro();
-                    LivroController livroController = new LivroController();
-                    livro.setDataLancamento(jFormattedTextField1.getText());
-                    livro.setEditora(jTextField3.getText());
-                    livro.setEscritor(jTextField2.getText());
-                    livro.setNome(jTextField1.getText());
-        
-                    if(livroController.Insert(livro)==1)
-                    {
-                        JOptionPane.showMessageDialog(null, "Livro Cadastrado!","Sucesso!",  JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Erro no Cadastro, entre em contato com nosso suporte.","Erro!",  JOptionPane.ERROR_MESSAGE);
-                    }
+                JOptionPane.showMessageDialog(null, "Livro editado com Sucesso!","Sucesso!",  JOptionPane.INFORMATION_MESSAGE);
+                new BuscaLivros().setVisible(true);
+                dispose();
                 }
-                
+                else
+                    JOptionPane.showMessageDialog(null, "Erro na edição, entre em contato com nosso suporte.","Erro!",  JOptionPane.ERROR_MESSAGE);
+            
+
             }
         });
 
@@ -223,8 +234,27 @@ public class CadastraLivros extends javax.swing.JFrame {
         // jTextField3.setText("3");
         // jFormattedTextField1.setText("4");
 
-        
+        // if(jTextField1.getText().isEmpty() || jTextField1.getText().isEmpty() || jTextField1.getText().isEmpty() || jFormattedTextField1.getText().isEmpty())
+        // {
+        //     JOptionPane.showMessageDialog(null, "Por favor preencha os campos obrigatorios!","Errode cadastro",  JOptionPane.ERROR_MESSAGE);
+        //         System.out.println("Erro no login");
+        // }else{
 
+        //     Livro livro = new Livro();
+        //     LivroController livroController = new LivroController();
+        //     livro.setDataLancamento(jFormattedTextField1.getText());
+        //     livro.setEditora(jTextField3.getText());
+        //     livro.setEscritor(jTextField2.getText());
+        //     livro.setNome(jTextField1.getText());
+
+        //     if(livroController.Insert(livro)==1)
+        //     {
+        //         JOptionPane.showMessageDialog(null, "Usuario Cadastrado!","Sucesso!",  JOptionPane.INFORMATION_MESSAGE);
+        //     }
+        //     else{
+        //         JOptionPane.showMessageDialog(null, "Erro no Cadastro, entre em contato com nosso suporte.","Erro!",  JOptionPane.ERROR_MESSAGE);
+        //     }
+        // }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -263,13 +293,13 @@ public class CadastraLivros extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastraLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditaLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastraLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditaLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastraLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditaLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastraLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditaLivros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -283,7 +313,8 @@ public class CadastraLivros extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadastraLivros().setVisible(true);
+                Livro livro = new Livro();
+                new EditaLivros(livro).setVisible(true);
             }
         });
     }
